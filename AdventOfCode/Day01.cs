@@ -11,30 +11,11 @@ public class Day01 : BaseDay
 
     public override ValueTask<string> Solve_1() {
 
-        int maxCalories = 0;
-        foreach(var list in elveLists)
-        {
-            int calorieCount = list.Split("\r\n").Select(s => int.Parse(s)).Sum();
-            if (calorieCount > maxCalories)
-            {
-                maxCalories = calorieCount;
-            }
-        }
-
-        return new(maxCalories.ToString());
+        return new(elveLists.Select(list => list.Split("\r\n").Select(s => int.Parse(s)).Sum()).Max().ToString());
+        
     }
     public override ValueTask<string> Solve_2()
     {
-        List<int> elfCalories = new List<int>();
-        foreach (var list in elveLists)
-        {
-            elfCalories.Add(list.Split("\r\n").Select(s => int.Parse(s)).Sum());
-            
-        }
-
-        int answer = elfCalories.OrderByDescending(x => x).Take(3).Sum();
-
-        return new(answer.ToString());
-
+        return new(elveLists.Select(list => list.Split("\r\n").Select(s => int.Parse(s)).Sum()).OrderByDescending(x => x).Take(3).Sum().ToString());
     }
 }
