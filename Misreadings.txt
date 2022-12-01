@@ -1,0 +1,1 @@
+Day 1 Part 2: Thought they wanted the sum of the positions of the 3 elves that had the max calories.
