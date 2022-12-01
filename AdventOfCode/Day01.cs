@@ -2,50 +2,35 @@
 
 public class Day01 : BaseDay
 {
-    private readonly string[] values;
+    private string[] elveLists;
 
     public Day01()
     {
-        values = File.ReadAllLines(InputFilePath);
+        elveLists = File.ReadAllText(InputFilePath).Split("\r\n\r\n");
     }
 
     public override ValueTask<string> Solve_1() {
 
-        List<int> elfCalories = new List<int>();
-        int currentSum = 0;
-        foreach (var s in values)
+        int maxCalories = 0;
+        foreach(var list in elveLists)
         {
-            if (s == "")
+            int calorieCount = list.Split("\r\n").Select(s => int.Parse(s)).Sum();
+            if (calorieCount > maxCalories)
             {
-                elfCalories.Add(currentSum);    
-                currentSum = 0;
-            } else
-            {
-                currentSum += int.Parse(s);
+                maxCalories = calorieCount;
             }
         }
 
-        elfCalories.Add(currentSum);
-        return new(elfCalories.Max().ToString());
+        return new(maxCalories.ToString());
     }
     public override ValueTask<string> Solve_2()
     {
         List<int> elfCalories = new List<int>();
-        int currentSum = 0;
-        foreach (var s in values)
+        foreach (var list in elveLists)
         {
-            if (s == "")
-            {
-                elfCalories.Add(currentSum);
-                currentSum = 0;
-            }
-            else
-            {
-                currentSum += int.Parse(s);
-            }
+            elfCalories.Add(list.Split("\r\n").Select(s => int.Parse(s)).Sum());
+            
         }
-
-        elfCalories.Add(currentSum);
 
         int answer = elfCalories.OrderByDescending(x => x).Take(3).Sum();
 
