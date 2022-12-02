@@ -43,16 +43,15 @@
 
         switch (myMove - elfMove)
         {
+            case -2:
+                score += 6;
+                break;
             case 0:
                 score += 3;
                 break;
             case 1:
                 score += 6;
                 break;
-        }
-        if (myMove == Move.Rock && elfMove == Move.Scissors)
-        {
-            score += 6;
         }
         return score;
     }
