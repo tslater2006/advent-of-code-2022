@@ -1,6 +1,11 @@
 if (args.Length == 0)
 {
-    await Solver.SolveLast(opt => opt.ClearConsole = false);
+    await Solver.SolveLast(opt =>
+    {
+        opt.ClearConsole = false;
+        opt.ShowConstructorElapsedTime = true;
+        opt.ShowTotalElapsedTimePerDay = true;
+    }) ;
 }
 else if (args.Length == 1 && args[0].Contains("all", StringComparison.CurrentCultureIgnoreCase))
 {
