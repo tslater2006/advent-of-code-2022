@@ -1,4 +1,6 @@
-﻿public class Day02 : BaseDay
+﻿namespace AdventOfCode;
+
+public class Day02 : BaseDay
 {
     enum Move
     {
