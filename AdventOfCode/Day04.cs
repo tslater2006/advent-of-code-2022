@@ -2,7 +2,7 @@
 
 public class Day04 : BaseDay
 {
-    List<((int, int), (int, int))> cleaningPairs = new();
+    List<(int Start, int Stop )[]> cleaningPairs = new();
     public Day04()
     {
         /* Input is 1 to many lines like \d+-\d+,\d+-\d+ */
@@ -10,8 +10,8 @@ public class Day04 : BaseDay
         {
             return line.Split(",").Select(section =>
             {
-                return section.Split("-").Select(int.Parse).Chunk(2).Select(z => (z[0],z[1])).First();
-            }).Chunk(2).Select(q => (q[0],q[1])).First();
+                return section.Split("-").Select(int.Parse).Chunk(2).Select(z => (Start: z[0],Stop : z[1])).First();
+            }).Chunk(2).ToArray().First();
         }).ToList();
     }
 
@@ -20,10 +20,10 @@ public class Day04 : BaseDay
         var completeOverlaps = 0;
         foreach(var pair in cleaningPairs)
         {
-            if (pair.Item2.Item1 >= pair.Item1.Item1 && pair.Item2.Item2 <= pair.Item1.Item2)
+            if (pair[1].Start >= pair[0].Start && pair[1].Stop  <= pair[0].Stop )
             {
                 completeOverlaps++;
-            } else if (pair.Item1.Item1 >= pair.Item2.Item1 && pair.Item1.Item2 <= pair.Item2.Item2)
+            } else if (pair[0].Start >= pair[1].Start && pair[0].Stop  <= pair[1].Stop )
             {
                 completeOverlaps++;
             }
@@ -38,19 +38,19 @@ public class Day04 : BaseDay
         var partialOverlaps = 0;
         foreach (var pair in cleaningPairs)
         {
-            if (pair.Item1.Item1 >= pair.Item2.Item1 && pair.Item1.Item1 <= pair.Item2.Item2)
+            if (pair[0].Start >= pair[1].Start && pair[0].Start <= pair[1].Stop )
             {
                 partialOverlaps++;
             }
-            else if (pair.Item1.Item2 >= pair.Item2.Item1 && pair.Item1.Item2 <= pair.Item2.Item2)
+            else if (pair[0].Stop  >= pair[1].Start && pair[0].Stop  <= pair[1].Stop )
             {
                 partialOverlaps++;
             }
-            else if (pair.Item2.Item1 >= pair.Item1.Item1 && pair.Item2.Item1 <= pair.Item1.Item2)
+            else if (pair[1].Start >= pair[0].Start && pair[1].Start <= pair[0].Stop )
             {
                 partialOverlaps++;
             }
-            else if (pair.Item2.Item2 >= pair.Item1.Item1 && pair.Item2.Item2 <= pair.Item1.Item2)
+            else if (pair[1].Stop  >= pair[0].Start && pair[1].Stop  <= pair[0].Stop )
             {
                 partialOverlaps++;
             }
