@@ -32,7 +32,21 @@ namespace AdventOfCode
             {0b1000_1000_1000_1000_1000_1111,'L'},
             {0b1001_1001_1001_1001_1001_0110,'U'},
         };
-        
+
+        private int GetLetterCode(int startX)
+        {
+            int code = 0;
+            for (var y = 0; y < 6; y++)
+            {
+                for (var x = startX; x < startX + 4; x++)
+                {
+                    code *= 2;
+                    code += (pixels[y, x] == '#') ? 1 : 0;
+                }
+            }
+
+            return code;
+        }
 
         public CRT()
         {
@@ -58,20 +72,7 @@ namespace AdventOfCode
             return code;
         }
 
-        private int GetLetterCode(int start)
-        {
-            int code = 0;
-            for(var y = 0; y < 6; y++)
-            {
-                for (var x = start; x < start + 4; x++)
-                {
-                    code *= 2;
-                    code += (pixels[y, x] == '#') ? 1 : 0;
-                }
-            }
 
-            return code;
-        }
 
         public void Tick()
         {
@@ -136,13 +137,7 @@ namespace AdventOfCode
                 Instructions.Add(instruction);
             }
         }
-        public void RunTillComplete()
-        {
-            while (PC < Instructions.Count)
-            {
-                Tick(1);
-            }
-        }
+
         public void Tick(uint cycles)
         {
             for(var x = 0; x < cycles; x++)
@@ -201,7 +196,7 @@ namespace AdventOfCode
             CRT screen = new CRT();
             CPU cpu = new CPU(File.ReadAllLines(InputFilePath), screen);
 
-            cpu.RunTillComplete();
+            cpu.Tick(240);
             var ans = screen.GetCode();
             return new(ans);
         }
