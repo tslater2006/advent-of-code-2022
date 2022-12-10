@@ -23,9 +23,16 @@ namespace AdventOfCode
         char[,] pixels = new char[6,40];
         public int SpritePosition = 0;
         public int Clock;
-
-
-
+        Dictionary<int, char> LETTERS = new Dictionary<int, char>()
+        {
+            {0b1110_1001_1001_1110_1000_1000,'P' },
+            {0b0110_1001_1000_1011_1001_0111,'G'},
+            {0b1001_1001_1111_1001_1001_1001,'H'},
+            {0b1111_1000_1110_1000_1000_1000,'F'},
+            {0b1000_1000_1000_1000_1000_1111,'L'},
+            {0b1001_1001_1001_1001_1001_0110,'U'},
+        };
+        
 
         public CRT()
         {
@@ -36,6 +43,34 @@ namespace AdventOfCode
                     pixels[y, x] = '.';
                 }
             }
+        }
+
+        public string GetCode()
+        {
+            var start = 0;
+            var code = "";
+            for(var c = 0; c < 8; c++)
+            {
+                code += LETTERS[GetLetterCode(start)];
+                start += 5;
+            }
+
+            return code;
+        }
+
+        private int GetLetterCode(int start)
+        {
+            int code = 0;
+            for(var y = 0; y < 6; y++)
+            {
+                for (var x = start; x < start + 4; x++)
+                {
+                    code *= 2;
+                    code += (pixels[y, x] == '#') ? 1 : 0;
+                }
+            }
+
+            return code;
         }
 
         public void Tick()
@@ -167,8 +202,8 @@ namespace AdventOfCode
             CPU cpu = new CPU(File.ReadAllLines(InputFilePath), screen);
 
             cpu.RunTillComplete();
-            screen.Print();
-            return new("TBD OCR");
+            var ans = screen.GetCode();
+            return new(ans);
         }
     }
 }
