@@ -1,1 +1,3 @@
 Day 1 Part 2: Thought they wanted the sum of the positions of the 3 elves that had the max calories. (2 minutes)
+Day 10 Part 1: Signal strength is *during* the cycle, not at the end of the cycle
+Day 10 Part 2: The X register specifies the *middle* of the 3 character sprite
